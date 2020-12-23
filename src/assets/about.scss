@@ -1,0 +1,163 @@
+.imgBanner {
+  height: 600px;
+  display: flex;
+  .logo {
+    position: absolute;
+    margin-top: 42px;
+    margin-left: 63px;
+  }
+  .roomImg {
+    &--left {
+      height: 100%;
+      flex: 0 0 70%;
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
+      }
+    }
+    &--right {
+      height: 100%;
+      flex: 0 0 30%;
+      img {
+        display: block;
+        width: 100%;
+        height: 50%;
+        object-fit: cover;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.roomTitle {
+  font-size: 36px;
+  color: #000000;
+  letter-spacing: 3.76px;
+}
+.roomDetail {
+  .detailShort {
+    font-size: 14px;
+    color: #000000;
+    letter-spacing: 1.46px;
+    line-height: 31px;
+    list-style: none;
+  }
+  .detail {
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 1.25px;
+    text-align: justify;
+    line-height: 20px;
+  }
+  .checkTime {
+    display: flex;
+    margin-top: 30px;
+    .checkIn {
+      font-size: 21px;
+      letter-spacing: 2.19px;
+    }
+    .checkOut {
+      margin-left: 100px;
+      font-size: 21px;
+      letter-spacing: 2.19px;
+    }
+  }
+  .roomFeature {
+    list-style: none;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 25px;
+    margin-top: 40px;
+    li {
+      display: flex;
+      flex: 0 0 33.333%;
+      padding-bottom: 28px;
+      padding-left: 10px;
+      font-weight: 300;
+      letter-spacing: 1.25px;
+    }
+    .featureImg {
+      width: 25px;
+      height: 25px;
+      margin-right: 12px;
+    }
+  }
+}
+.price {
+  text-align: right;
+  .normalPrice {
+    font-size: 30px;
+    letter-spacing: 3.13px;
+    line-height: 27px;
+  }
+  .holidayPrice {
+    font-size: 16px;
+    letter-spacing: 1.67px;
+    line-height: 27px;
+  }
+  .priceRange {
+    font-size: 14px;
+    color: #6d7278;
+    letter-spacing: 1.46px;
+    line-height: 27px;
+  }
+}
+.datePicker {
+  display: flex;
+  justify-content: center;
+}
+.reservationBtn {
+  margin-top: 26px;
+  margin-left: 45px;
+  padding: 13px 25px;
+}
+
+.modal-title {
+  font-size: 24px;
+  color: #000000;
+  letter-spacing: 2.51px;
+  text-align: center;
+}
+.form-group {
+  display: flex;
+  justify-content: center;
+  .formLabel {
+    width: 100px;
+    font-size: 14px;
+    color: #000000;
+    letter-spacing: 1.46px;
+    text-align: center;
+  }
+}
+.modal-container {
+  padding: 0 40px;
+}
+.bookingDay {
+  background: #ededed;
+  .countDay {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #6d7278;
+    letter-spacing: 1.25px;
+    text-align: right;
+  }
+}
+.bookingPrice {
+  font-size: 26px;
+  color: #ff5c5c;
+  letter-spacing: 2.72px;
+  text-align: right;
+}
+.bookSuccess {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 60px;
+    height: 60px;
+  }
+}

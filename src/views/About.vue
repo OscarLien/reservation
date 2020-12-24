@@ -152,7 +152,7 @@
               :min-date="new Date()"
             />
           </div>
-          <button class="reservationBtn btn btn-secondary" @click="openMadal">
+          <button class="reservationBtn btn btn-secondary" @click="openModal">
             預約時段
           </button>
           <button
@@ -164,233 +164,35 @@
         </div>
       </div>
     </div>
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="myModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLongTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">
-              {{ modalTitle }}
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" v-if="modalTitle === '預約時段'">
-            <div class="modal-container">
-              <div class="form-group">
-                <label for="" class="formLabel">姓名</label>
-                <input type="text" class="form-control" v-model="name" />
-              </div>
-              <div class="form-group">
-                <label for="" class="formLabel">電話</label>
-                <input type="tel" class="form-control" v-model="tel" />
-              </div>
-              <div class="form-group">
-                <label for="" class="formLabel">預約起迄</label>
-
-                <vc-date-picker v-model="date" is-range :min-date="new Date()">
-                  <template v-slot="{ inputValue, inputEvents }">
-                    <div class="flex justify-center items-center">
-                      <input
-                        :value="inputValue.start"
-                        v-on="inputEvents.start"
-                        class="border px-2 py-1 rounded focus:outline-none focus:border-indigo-300"
-                      />~
-                      <input
-                        :value="inputValue.end"
-                        v-on="inputEvents.end"
-                        class="border px-2 py-1 rounded focus:outline-none focus:border-indigo-300"
-                      />
-                    </div>
-                  </template>
-                </vc-date-picker>
-              </div>
-            </div>
-            <div class="bookingDay">
-              <div class="modal-container">
-                <div class="countDay">
-                  <p>平日時段</p>
-                  <p>{{ weekday }}夜</p>
-                </div>
-                <div class="countDay">
-                  <p>假日時段</p>
-                  <p>{{ weekend }}夜</p>
-                </div>
-              </div>
-            </div>
-            <div class="modal-container">
-              <div class="bookingPrice">
-                = NT.{{
-                  weekday * roomDetail.normalDayPrice +
-                  weekend * roomDetail.holidayPrice
-                }}
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer" v-if="modalTitle === '預約時段'">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              取消
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="submit(roomId)"
-            >
-              確定預約
-            </button>
-          </div>
-          <div v-if="modalTitle === '預約成功'">
-            <div class="modal-body">
-              <div class="modal-container">
-                <div class="bookSuccess">
-                  <img
-                    src="../assets/info_icon/tick-inside-circle.svg"
-                    alt=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer" v-if="modalTitle === '預約成功'">
-            <button type="button" class="btn btn-secondary" @click="hideModal">
-              回首頁
-            </button>
-          </div>
-          <div v-if="modalTitle === '預約失敗'">
-            <div class="modal-body">
-              <div class="modal-container">
-                <div class="bookSuccess">
-                  <p>預約時間已被人預訂</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer" v-if="modalTitle === '預約失敗'">
-            <button type="button" class="btn btn-secondary" @click="hideModal">
-              返回
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <BookingModal></BookingModal>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import $ from 'jquery';
+import BookingModal from '@/components/BookingModal.vue';
 
 export default {
-  components: {},
+  components: {
+    BookingModal,
+  },
   data() {
     return {
-      date: {
-        start: null,
-        end: null,
-      },
-      name: '',
-      tel: '',
-      weekday: '',
-      weekend: '',
-      roomId: '',
-      // roomDetail: null,
-      // bookInfo: null,
-      modalTitle: '預約時段',
-      // isLoading: true,
     };
   },
   methods: {
     getRoom(id) {
       this.$store.dispatch('getDetailRoom', id);
-      // const vm = this;
-      // const api = `${process.env.VUE_APP_APIPATH}/room/${id}`;
-      // axios.defaults.headers.common.Authorization = `Bearer ${process.env.VUE_APP_APITOKEN}`;
-      // this.$http.get(api).then((response) => {
-      //   const [roomData] = response.data.room;
-      //   vm.roomDetail = roomData;
-      //   vm.bookInfo = response.data.booking;
-      //   vm.isLoading = false;
-      // });
-    },
-    submit(id) {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/room/${id}`;
-      const form = {
-        name: vm.name,
-        tel: vm.tel,
-        date: vm.formatDate,
-      };
-      axios.defaults.headers.common.Authorization = `Bearer ${process.env.VUE_APP_APITOKEN}`;
-      vm.$http
-        .post(api, { ...form })
-        .then((response) => {
-          if (response.data.success) {
-            vm.modalTitle = '預約成功';
-          }
-        })
-        .catch(() => {
-          vm.modalTitle = '預約失敗';
-        });
     },
     isFeature(feature) {
       return feature ? 1 : 0.3;
     },
-    openMadal() {
+    openModal() {
       $('#myModal').modal('show');
     },
-    hideModal() {
-      $('#myModal').modal('hide');
-      this.modalTitle = '預約時段';
-    },
     getTotalNight(date) {
-      const startDay = date.start.getDay();
-      const endDay = date.end.getDay();
-      const totalDay = parseInt(
-        (date.end - date.start) / 1000 / 60 / 60 / 24,
-        10,
-      );
-      let weekday = 0;
-      let weekend = 0;
-      if (totalDay <= 6) {
-        if (startDay > endDay) {
-          weekend += 2;
-          if (startDay === 6) {
-            weekend -= 1;
-          }
-        } else if (endDay === 6) {
-          weekend += 1;
-        }
-        weekday = totalDay - weekend;
-      } else {
-        const fullWeekend = ((totalDay - (7 - startDay + endDay)) / 7) * 2;
-        weekend += fullWeekend;
-        if (startDay === 6) weekend += 1;
-        if (endDay === 6) weekend += 1;
-        if (startDay <= 5) {
-          weekend += 2;
-        }
-        weekday = totalDay - weekend;
-      }
-      // eslint-disable-next-line radix
-      this.weekday = weekday;
-      this.weekend = weekend;
+      this.$store.dispatch('getTotalNight', date);
     },
     deleteReservation() {
       const vm = this;
@@ -398,6 +200,7 @@ export default {
       axios.defaults.headers.common.Authorization = `Bearer ${process.env.VUE_APP_APITOKEN}`;
       vm.$http.delete(api).then((response) => {
         console.log(response);
+        vm.getRoom(vm.roomId);
       });
     },
   },
@@ -433,6 +236,26 @@ export default {
     bookInfo() {
       return this.$store.state.bookInfo;
     },
+    modalTitle() {
+      return this.$store.state.modalTitle;
+    },
+    weekday() {
+      return this.$store.state.weekday;
+    },
+    weekend() {
+      return this.$store.state.weekend;
+    },
+    roomId() {
+      return this.$store.state.roomId;
+    },
+    date: {
+      get() {
+        return this.$store.state.date;
+      },
+      set(value) {
+        this.$store.commit('DATE', value);
+      },
+    },
   },
   watch: {
     date() {
@@ -441,7 +264,7 @@ export default {
   },
   created() {
     const vm = this;
-    vm.roomId = vm.$route.params.id;
+    vm.$store.state.roomId = vm.$route.params.id;
     vm.getRoom(vm.roomId);
   },
 };

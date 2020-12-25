@@ -14,8 +14,8 @@
     <transition mode="out-in">
       <div class="wrap" v-if="!isLoading">
         <div class="homeLogo">
-          <span>皮葛</span>
-          <span>肥特</span>
+          <span>White</span>
+          <span>Space</span>
         </div>
         <div class="roomIndex">
           {{ roomIndex }}
@@ -106,3 +106,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.slide-enter-active, .slide-leave-active{
+  transition: all 0.5s;
+}
+</style>
